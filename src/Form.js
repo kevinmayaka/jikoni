@@ -1,10 +1,14 @@
 import { useState } from "react"
+import './Form.css'
 
 export default function Form() {
     // handling state
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    // states to handle form visibility
+    const [isFormVisible, setisFormVisible] = useState(false);
+    
 
     // states for checking errors
     const [submitted, setSubmitted] = useState(false)
@@ -53,13 +57,18 @@ export default function Form() {
         )
     }
     return (
-        <div className="form">
+        <div className="app">
+            <button className="nav-btn" onClick={()=> setisFormVisible(!isFormVisible)}>
+                log in</button>
+            {/* conditionally rendering the form */}
+            {isFormVisible && (
+            <div className="form">
             <div>User Registration</div>
             <div className="messages">
                 {errorMessage()}
                 {successMessage()}
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <label className="label">Name</label>
                 <input className="input"
                     onChange={handleName}
@@ -83,8 +92,11 @@ export default function Form() {
 
                 <button
                     className="btn"
-                    onSubmit={handleSubmit}>Submit</button>
+                    type="submit"
+                    >Submit</button>
             </form>
-        </div>
-    )
+                </div>
+                )}
+            </div>
+    );
 }
